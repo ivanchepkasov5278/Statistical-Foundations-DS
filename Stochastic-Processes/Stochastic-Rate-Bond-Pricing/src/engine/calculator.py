@@ -109,9 +109,15 @@ class CalculationModel:
 
         # Calculate intrinsic value at expiration based on option type (Call or Put)
         if call:
-            american_option_tree = asset_tree - strike
+            american_option_tree = asset_tree - strike * np.flip(
+                np.tri(asset_tree.shape[1], asset_tree.shape[1], k=0), axis=1
+            )
         else:
-            american_option_tree = strike - asset_tree
+            american_option_tree = (
+                strike
+                * np.flip(np.tri(asset_tree.shape[1], asset_tree.shape[1], k=0), axis=1)
+                - asset_tree
+            )
 
         american_option_tree[american_option_tree < 0] = 0
 
