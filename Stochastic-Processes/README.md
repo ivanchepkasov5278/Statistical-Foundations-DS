@@ -25,6 +25,10 @@ This directory contains a curated collection of laboratory works centered on the
 
 ## 🏛️ Featured Project: Stochastic Rate Bond Pricing
 
+<p align="center">
+  <img src=".media/bond_pricing_app.png" alt="Stochastic Rate Pricing Dashboard" width="60%">
+</p>
+
 This application is a full-stack financial pricing engine built to visualize how interest rate volatility impacts the valuation of debt instruments and derivatives.
 
 ### 🚀 How to Run
