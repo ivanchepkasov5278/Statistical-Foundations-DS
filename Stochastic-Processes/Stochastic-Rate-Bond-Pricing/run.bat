@@ -75,7 +75,7 @@ if not defined PY_CMD (
 
 :: Verify the Python version is working
 echo Python ready:
-%PY_CMD% --version
+"%PY_CMD%" --version
 if errorlevel 1 (
     echo Python is not working correctly.
     pause
@@ -113,7 +113,7 @@ exit /b 0
 :: Creates the virtual environment and installs all necessary Python libraries
 :SetupApp
 echo Setting up the virtual environment...
-%PY_CMD% -m venv "%VENV_DIR%"
+"%PY_CMD%" -m venv "%VENV_DIR%"
 if errorlevel 1 (
     echo Failed to create the virtual environment.
     pause
@@ -158,7 +158,7 @@ for /f "delims=" %%I in ('where py 2^>nul') do (
 for /f "delims=" %%I in ('where python 2^>nul') do (
     echo %%I | findstr /i "WindowsApps" >nul
     if errorlevel 1 (
-        set "PY_CMD=\"%%I\""
+        set "PY_CMD=%%I"
         exit /b 0
     )
 )
@@ -166,7 +166,7 @@ for /f "delims=" %%I in ('where python 2^>nul') do (
 :: 3. Check the standard User Local Program directory
 for /d %%D in ("%LocalAppData%\Programs\Python\Python*") do (
     if exist "%%~fD\python.exe" (
-        set "PY_CMD=\"%%~fD\python.exe\""
+        set "PY_CMD=%%~fD\python.exe"
         exit /b 0
     )
 )
