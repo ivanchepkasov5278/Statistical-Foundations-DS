@@ -86,5 +86,28 @@ The model assumes the short rate follows a binomial process over $n$ periods. Gi
   $$p = \frac{\exp(r_0 T / n) - d}{u - d}$$
   and $q = 1 - p$
 
+#### 2. Zero-Coupon Bond (ZCB) Valuation
+The ZCB is priced using **Backward Induction**. Starting from maturity $T$ (where the bond equals its nominal value of 100%), the price at any preceding node is the discounted expected value of its future nodes:
+$$P_{i,j} = \frac{p \cdot P_{i+1, j+1} + q \cdot P_{i, j+1}}{1 + r_{i,j}}$$
+
+#### 3. Linear Derivative Pricing: Forwards vs. Futures
+The model highlights the divergence between Forward and Futures prices under stochastic rates:
+
+* **Forward Price ($F_t$):** Calculated as a ratio of present values, representing the price that prevents arbitrage at time $t$:
+    $$F_t = \frac{ZCB_{Maturity}}{ZCB_t}$$
+* **Futures Price:** Unlike forwards, futures are priced as **martingales**. The value at each node is the simple expected value of the next period's futures price, without local discounting:
+    $$Futures_{i,j} = p \cdot Futures_{i+1, j+1} + q \cdot Futures_{i, j+1}$$
+
+#### 4. Nonlinear Derivatives: American Options
+The model values American Call options on ZCB futures. At every node, the engine evaluates the **Early Exercise Condition**, choosing the maximum between the intrinsic value and the continuation value:
+
+$$V_{i,j} = \max(Spot_{i,j} - Strike, \text{Continuation Value})$$
+
 ### 📝 Key Insights
+
+- **Forward–Futures Divergence**: The model demonstrates that stochastic interest rates can cause forward and futures prices to decouple, reflecting the impact of daily futures settlement and martingale pricing.
+
+- **Lattice Sensitivity**: The implementation illustrates how interest-rate volatility, $\sigma$, scales the up and down factors $(u, d)$, thereby increasing the time value of options on the ZCB10.
+
+- **Numerical Efficiency**: Using a 10-period binomial tree, the engine provides an efficient discrete approximation for pricing path-dependent derivatives.
 
